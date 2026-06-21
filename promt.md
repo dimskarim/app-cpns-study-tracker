@@ -593,3 +593,216 @@ Input tryout
 Melihat progres
 
 Semua berjalan tanpa internet
+
+
+FITUR SUDAH (FRONTEND UI):
+- [x] UI Dashboard & Navigasi
+- [x] UI Jadwal & Tambah Jadwal
+Accordion
+
+---
+
+# Page — Tryout
+
+Features:
+
+Tambah
+
+Riwayat
+
+Detail
+
+Fields:
+
+Tanggal
+
+TWK
+
+TIU
+
+TKP
+
+Catatan
+
+Total (Auto)
+
+---
+
+# Page — Statistik
+
+Features:
+
+Jam Belajar
+
+Subbab Selesai
+
+Tryout Average
+
+Progress
+
+Chart:
+
+Weekly
+
+Monthly
+
+---
+
+# Page — Pengaturan
+
+Features:
+
+Theme
+
+Backup
+
+Import
+
+Export
+
+Reset
+
+---
+
+# Database Schema
+
+subjects
+
+id
+
+name
+
+color
+
+order
+
+subtopics
+
+id
+
+subjectId
+
+name
+
+duration
+
+completed
+
+order
+
+studyPlans
+
+id
+
+date
+
+subjectId
+
+subtopicId
+
+status
+
+tryouts
+
+id
+
+date
+
+twk
+
+tiu
+
+tkp
+
+notes
+
+settings
+
+theme
+
+---
+
+# Performance Rules
+
+Load:
+< 1 second
+
+FPS:
+60
+
+Lighthouse:
+90+
+
+Bundle:
+< 500 KB
+
+Offline:
+100%
+
+---
+
+# UX Rules
+
+≤ 3 klik untuk input
+
+Progress selalu terlihat
+
+Responsive
+
+Dark Mode
+
+Empty State
+
+Keyboard Friendly
+
+---
+
+# Deliverables
+
+Figma
+
+Design System
+
+Responsive
+
+Prototype
+
+Developer Handoff
+
+Production Ready
+
+---
+
+# Success Criteria
+
+User dapat:
+
+Tambah materi
+
+Tambah subbab
+
+Buat jadwal
+
+Input tryout
+
+Melihat progres
+
+Semua berjalan tanpa internet
+
+
+FITUR SUDAH (FRONTEND UI):
+- [x] UI Dashboard & Navigasi
+- [x] UI Jadwal & Tambah Jadwal
+- [x] UI Tryout & Detail
+- [x] UI Statistik
+- [x] UI Pengaturan & Dark Mode
+- [x] UI Timer & Stopwatch
+
+TO-DO BACKEND (DEXIE.JS & ZUSTAND):
+- [x] Setup Skema Database (Dexie.js) & State (Zustand)
+- [x] Fitur Manajemen Materi (Tambah Bab/Subbab, Edit, Hapus)
+- [x] Fitur Jadwal (Tambah ke kalender, Centang selesai, Copy Mingguan)
+- [x] Fitur Tryout (Simpan skor, hitung otomatis, riwayat)
+- [x] Fitur Statistik (Kalkulasi real-data: Jam Belajar, Tren, Hari Aktif)
+- [x] Fitur Timer (Mencatat waktu selesai belajar ke Database)
+- [x] Fitur Pengaturan (Simpan tema, Reset)

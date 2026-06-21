@@ -1,10 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useLiveQuery } from 'dexie-react-hooks';
+import db from '../db/database';
+import { useStore } from '../store/useStore';
 
 const Tryout = () => {
+  const { profileAvatar } = useStore();
   const [mounted, setMounted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
+  // Form State
+  const [twk, setTwk] = useState('');
+  const [tiu, setTiu] = useState('');
+  const [tkp, setTkp] = useState('');
+  const [notes, setNotes] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   // Custom Date Picker State
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
@@ -37,14 +49,68 @@ const Tryout = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const tryouts = useLiveQuery(() => db.tryouts.orderBy('date').reverse().toArray());
+
+  const totalUjian = tryouts?.length || 0;
+  const maxScore = tryouts?.length ? Math.max(...tryouts.map(t => t.twk + t.tiu + t.tkp)) : 0;
+  const avgScore = tryouts?.length ? Math.round(tryouts.reduce((acc, t) => acc + t.twk + t.tiu + t.tkp, 0) / totalUjian) : 0;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    
+    if (!twk || !tiu || !tkp) {
+      setErrorMsg("Harap lengkapi semua nilai skor!");
+      setTimeout(() => setErrorMsg(''), 3000);
+      return;
+    }
+
+    if (Number(twk) > 150 || Number(tiu) > 175 || Number(tkp) > 225) {
+      setErrorMsg("Skor melebihi batas maksimal (TWK 150, TIU 175, TKP 225)!");
+      setTimeout(() => setErrorMsg(''), 3000);
+      return;
+    }
+
+    if (!selectedDate) {
+      setErrorMsg("Harap pilih tanggal tryout terlebih dahulu!");
+      setTimeout(() => setErrorMsg(''), 3000);
+      return;
+    }
+    
+    await db.tryouts.add({
+      date: selectedDate.toISOString(),
+      twk: Number(twk) || 0,
+      tiu: Number(tiu) || 0,
+      tkp: Number(tkp) || 0,
+      notes
+    });
+    
+    setTwk('');
+    setTiu('');
+    setTkp('');
+    setNotes('');
+    setIsSubmitted(false);
+    toggleModal();
+  };
+
   return (
     <>
+      {/* Toast Alert */}
+      <div className={`fixed top-safe pt-4 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 ease-out w-[90%] max-w-sm ${errorMsg ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0 pointer-events-none'}`}>
+        <div className="bg-error text-white px-4 py-3 rounded-2xl shadow-xl shadow-error/20 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+            <span className="material-symbols-outlined text-[20px]">error</span>
+          </div>
+          <span className="font-label-md text-sm leading-snug flex-1">{errorMsg}</span>
+        </div>
+      </div>
+
       <header className="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-margin-mobile py-sm bg-surface/70 backdrop-blur-xl transition-all duration-300">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
-            <img className="w-full h-full object-cover" alt="Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnVecxq_Go-m5vtMcBd9WaZJxb-FJW0GLuMOYyWgNg2CDRSH4ueEm4OlRGUYDg0P_fbJz7kT-Ebcb6oyAmlVasHwfhFzuKNC8CP89iZhV_hkfBcVojtvN7_NsRDbss41MCEqGXA6hj96I4KX-nTd1ChTK-PVYXQh-tj9OQla8Lx0IfiCGCem35ZTDwskfXM71PJPcQzAurpYQQN9b5kpXB3O0OMk5ilw1Z5AUpeMQ0vz7XNl0JPFg6aacl9Amsl_HfUwIi8EQAFko" />
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container bg-surface-container">
+            <img className="w-full h-full object-cover" alt="Profile" src={profileAvatar} />
           </div>
-          <span className="font-headline-sm text-headline-sm font-bold text-primary">Tryout</span>
+          <h1 className="font-headline-sm text-headline-sm font-bold text-primary">Tryout</h1>
         </div>
         <button className="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors">
           <span className="material-symbols-outlined">notifications</span>
@@ -64,10 +130,10 @@ const Tryout = () => {
           <div className="col-span-2 md:col-span-2 glass-card shadow-[0px_8px_32px_rgba(37,99,235,0.08)] rounded-xl p-md flex flex-col justify-between overflow-hidden relative group">
             <div className="relative z-10">
               <p className="font-label-md text-on-surface-variant mb-1">Skor Tertinggi</p>
-              <h2 className="font-headline-lg text-headline-lg text-primary">488</h2>
+              <h2 className="font-headline-lg text-headline-lg text-primary">{maxScore}</h2>
               <p className="font-caption text-tertiary flex items-center gap-1">
                 <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>trending_up</span>
-                Naik 12% bulan ini
+                Poin Maksimal
               </p>
             </div>
             <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform">
@@ -76,12 +142,12 @@ const Tryout = () => {
           </div>
           <div className="glass-card shadow-[0px_8px_32px_rgba(37,99,235,0.08)] rounded-xl p-md">
             <p className="font-label-md text-on-surface-variant mb-1">Total Ujian</p>
-            <h2 className="font-headline-md text-headline-md">24</h2>
+            <h2 className="font-headline-md text-headline-md">{totalUjian}</h2>
             <p className="font-caption text-on-surface-variant">Sesi Tryout</p>
           </div>
           <div className="glass-card shadow-[0px_8px_32px_rgba(37,99,235,0.08)] rounded-xl p-md">
             <p className="font-label-md text-on-surface-variant mb-1">Rata-rata</p>
-            <h2 className="font-headline-md text-headline-md">412</h2>
+            <h2 className="font-headline-md text-headline-md">{avgScore}</h2>
             <p className="font-caption text-on-surface-variant">Poin / Sesi</p>
           </div>
         </section>
@@ -89,65 +155,49 @@ const Tryout = () => {
         <section className={`space-y-md transition-all duration-700 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <div className="flex items-center justify-between mb-2">
             <h3 className="font-label-md text-on-surface-variant uppercase tracking-wider">Aktivitas Terakhir</h3>
-            <button className="text-primary font-label-md hover:underline">Lihat Semua</button>
+            {totalUjian > 0 && <button className="text-primary font-label-md hover:underline">Lihat Semua</button>}
           </div>
 
-          <Link to="/tryout/detail" className="glass-card shadow-[0px_8px_32px_rgba(37,99,235,0.08)] rounded-xl p-md flex items-center justify-between hover:translate-y-[-4px] active:scale-[0.98] transition-all cursor-pointer block">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary-container/10 text-primary rounded-full flex items-center justify-center">
-                <span className="material-symbols-outlined text-[20px]">event_note</span>
-              </div>
-              <div>
-                <h4 className="font-label-md text-on-surface">18 Juni 2024</h4>
-                <p className="font-caption text-on-surface-variant text-[12px]">Tryout Nasional Batch 4</p>
-              </div>
+          {totalUjian === 0 ? (
+            <div className="text-center p-8 bg-surface-container-lowest rounded-xl border border-outline-variant/30">
+              <span className="material-symbols-outlined text-4xl text-outline-variant mb-2">inbox</span>
+              <p className="text-on-surface-variant font-body-md">Belum ada riwayat tryout.</p>
             </div>
-            <div className="text-right">
-              <div className="flex items-center gap-2 justify-end">
-                <span className="font-bold text-base text-on-surface">455</span>
-                <span className="font-label-md text-[12px] text-tertiary flex items-center">↑ +12</span>
-              </div>
-              <p className="font-caption text-on-surface-variant text-[12px]">Skor Total</p>
-            </div>
-          </Link>
+          ) : (
+            tryouts?.slice(0, 5).map((tryout, index) => {
+              const total = tryout.twk + tryout.tiu + tryout.tkp;
+              const prevTotal = tryouts[index + 1] ? (tryouts[index + 1].twk + tryouts[index + 1].tiu + tryouts[index + 1].tkp) : total;
+              const diff = total - prevTotal;
+              
+              const d = new Date(tryout.date);
+              const dateStr = `${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}`;
 
-          <Link to="/tryout/detail" className="glass-card shadow-[0px_8px_32px_rgba(37,99,235,0.08)] rounded-xl p-md flex items-center justify-between hover:translate-y-[-4px] active:scale-[0.98] transition-all cursor-pointer block">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary-container/10 text-primary rounded-full flex items-center justify-center">
-                <span className="material-symbols-outlined text-[20px]">event_note</span>
-              </div>
-              <div>
-                <h4 className="font-label-md text-on-surface">12 Juni 2024</h4>
-                <p className="font-caption text-on-surface-variant text-[12px]">Simulasi Mandiri #12</p>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="flex items-center gap-2 justify-end">
-                <span className="font-bold text-base text-on-surface">443</span>
-                <span className="font-label-md text-[12px] text-error flex items-center">↓ -8</span>
-              </div>
-              <p className="font-caption text-on-surface-variant text-[12px]">Skor Total</p>
-            </div>
-          </Link>
-
-          <Link to="/tryout/detail" className="glass-card shadow-[0px_8px_32px_rgba(37,99,235,0.08)] rounded-xl p-md flex items-center justify-between hover:translate-y-[-4px] active:scale-[0.98] transition-all cursor-pointer block">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary-container/10 text-primary rounded-full flex items-center justify-center">
-                <span className="material-symbols-outlined text-[20px]">event_note</span>
-              </div>
-              <div>
-                <h4 className="font-label-md text-on-surface">05 Juni 2024</h4>
-                <p className="font-caption text-on-surface-variant text-[12px]">Tryout Super Intensif</p>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="flex items-center gap-2 justify-end">
-                <span className="font-bold text-base text-on-surface">451</span>
-                <span className="font-label-md text-[12px] text-tertiary flex items-center">↑ +22</span>
-              </div>
-              <p className="font-caption text-on-surface-variant text-[12px]">Skor Total</p>
-            </div>
-          </Link>
+              return (
+                <Link key={tryout.id} to={`/tryout/detail?id=${tryout.id}`} className="glass-card shadow-[0px_8px_32px_rgba(37,99,235,0.08)] rounded-xl p-md flex items-center justify-between hover:translate-y-[-4px] active:scale-[0.98] transition-all cursor-pointer block">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-primary-container/10 text-primary rounded-full flex items-center justify-center">
+                      <span className="material-symbols-outlined text-[20px]">event_note</span>
+                    </div>
+                    <div>
+                      <h4 className="font-label-md text-on-surface">{dateStr}</h4>
+                      <p className="font-caption text-on-surface-variant text-[12px]">Tryout Mandiri</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-center gap-2 justify-end">
+                      <span className="font-bold text-base text-on-surface">{total}</span>
+                      {diff !== 0 && (
+                        <span className={`font-label-md text-[12px] flex items-center ${diff > 0 ? 'text-tertiary' : 'text-error'}`}>
+                          {diff > 0 ? `↑ +${diff}` : `↓ ${diff}`}
+                        </span>
+                      )}
+                    </div>
+                    <p className="font-caption text-on-surface-variant text-[12px]">Skor Total</p>
+                  </div>
+                </Link>
+              );
+            })
+          )}
         </section>
       </main>
 
@@ -161,7 +211,7 @@ const Tryout = () => {
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
-          <form className="space-y-md" onSubmit={(e) => { e.preventDefault(); toggleModal(); }}>
+          <form className="space-y-md" onSubmit={handleSubmit} noValidate>
             <div className="space-y-xs relative z-50">
               <label className="font-label-md text-on-surface-variant ml-1">Tanggal</label>
               <div className="relative">
@@ -209,23 +259,29 @@ const Tryout = () => {
             </div>
             <div className="grid grid-cols-3 gap-md">
               <div className="space-y-xs">
-                <label className="font-label-md text-on-surface-variant ml-1">TWK</label>
-                <input className="w-full bg-surface-container-lowest border-outline-variant rounded-xl p-md focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-center" placeholder="0" type="number" />
+                <label className="block font-label-md text-on-surface-variant ml-1">TWK</label>
+                <input type="number" min="0" max="150" className="w-full h-[52px] px-sm rounded-xl border border-outline-variant bg-surface-container-lowest font-body-md focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-center" placeholder="0-150" value={twk} onChange={(e) => setTwk(e.target.value)} />
+                {isSubmitted && !twk && <p className="text-error text-[11px] mt-1 ml-1 leading-tight">Wajib diisi</p>}
+                {isSubmitted && twk && Number(twk) > 150 && <p className="text-error text-[11px] mt-1 ml-1 leading-tight">Maks 150</p>}
               </div>
               <div className="space-y-xs">
-                <label className="font-label-md text-on-surface-variant ml-1">TIU</label>
-                <input className="w-full bg-surface-container-lowest border-outline-variant rounded-xl p-md focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-center" placeholder="0" type="number" />
+                <label className="block font-label-md text-on-surface-variant ml-1">TIU</label>
+                <input type="number" min="0" max="175" className="w-full h-[52px] px-sm rounded-xl border border-outline-variant bg-surface-container-lowest font-body-md focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-center" placeholder="0-175" value={tiu} onChange={(e) => setTiu(e.target.value)} />
+                {isSubmitted && !tiu && <p className="text-error text-[11px] mt-1 ml-1 leading-tight">Wajib diisi</p>}
+                {isSubmitted && tiu && Number(tiu) > 175 && <p className="text-error text-[11px] mt-1 ml-1 leading-tight">Maks 175</p>}
               </div>
               <div className="space-y-xs">
-                <label className="font-label-md text-on-surface-variant ml-1">TKP</label>
-                <input className="w-full bg-surface-container-lowest border-outline-variant rounded-xl p-md focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-center" placeholder="0" type="number" />
+                <label className="block font-label-md text-on-surface-variant ml-1">TKP</label>
+                <input type="number" min="0" max="225" className="w-full h-[52px] px-sm rounded-xl border border-outline-variant bg-surface-container-lowest font-body-md focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-center" placeholder="0-225" value={tkp} onChange={(e) => setTkp(e.target.value)} />
+                {isSubmitted && !tkp && <p className="text-error text-[11px] mt-1 ml-1 leading-tight">Wajib diisi</p>}
+                {isSubmitted && tkp && Number(tkp) > 225 && <p className="text-error text-[11px] mt-1 ml-1 leading-tight">Maks 225</p>}
               </div>
             </div>
             <div className="space-y-xs">
               <label className="font-label-md text-on-surface-variant ml-1">Catatan Strategi</label>
-              <textarea className="w-full bg-surface-container-lowest border-outline-variant rounded-xl p-md focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all" placeholder="Apa yang perlu diperbaiki?" rows={3}></textarea>
+              <textarea value={notes} onChange={(e) => setNotes(e.target.value)} className="w-full bg-surface-container-lowest border border-outline-variant rounded-xl p-md focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all" placeholder="Apa yang perlu diperbaiki?" rows={3}></textarea>
             </div>
-            <button className="w-full primary-gradient text-white py-4 rounded-xl font-headline-sm shadow-lg hover:shadow-primary/20 active:scale-[0.98] transition-all mt-4" type="submit">
+            <button type="submit" className="w-full py-md bg-primary text-on-primary rounded-xl font-label-md active:scale-95 transition-transform hover:opacity-90 shadow-lg shadow-primary/30 mt-lg">
               Simpan Hasil
             </button>
           </form>

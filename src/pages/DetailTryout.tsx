@@ -1,13 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import db from '../db/database';
 
 const DetailTryout = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const idStr = searchParams.get('id');
   const [mounted, setMounted] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleDelete = async () => {
+    if (idStr) {
+      await db.tryouts.delete(Number(idStr));
+      navigate('/tryout', { replace: true });
+    }
+  };
 
   return (
     <div className="bg-background text-on-surface font-body-md min-h-screen pb-32">
@@ -22,9 +33,13 @@ const DetailTryout = () => {
           <h1 className="font-headline-sm text-headline-sm font-bold text-primary">Detail Hasil Tryout</h1>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
-            <img className="w-full h-full object-cover" alt="Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2qVIPbqzEATVCsxX89dR-Cr9CdR7PP7hqAsM7qVAo2aNU5PuDmmqYulObOqYFdfjdPdNvs8BEWMFSPdhiSSrMwLBGhOdwk3QKS1KgrZaBFa3Uk8__ZujTuBhlQ7tK_Ovj5ZYCUQUCIH2YKxUfFmoIFNC2DWAeU4LShHLmzOM8CW6m6glMtFcywRDTy05aVr8Q9dFYIDHmrQk8fLp4OQPEqWlayVxaAMduti7wuQny6K5D6_JVi4144NmyBV4nZODJIcwNKpSL8y0" />
-          </div>
+          <button 
+            onClick={() => setDeleteModalOpen(true)}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-error hover:bg-error/10 active:scale-95 transition-all"
+            title="Hapus Tryout"
+          >
+            <span className="material-symbols-outlined text-[18px]">delete</span>
+          </button>
         </div>
       </header>
 
@@ -166,6 +181,38 @@ const DetailTryout = () => {
           </button>
         </div>
       </nav>
+
+      {/* Delete Confirmation Modal */}
+      <div className={`fixed inset-0 z-[100] items-center justify-center p-gutter transition-all duration-300 ${deleteModalOpen ? 'flex' : 'hidden'}`}>
+        <div className="absolute inset-0 bg-on-background/40 backdrop-blur-sm" onClick={() => setDeleteModalOpen(false)}></div>
+        <div className={`relative w-full max-w-xs bg-surface rounded-lg shadow-2xl overflow-hidden transform transition-all duration-300 ${deleteModalOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}>
+          <div className="p-lg">
+            <div className="w-12 h-12 rounded-full bg-error/10 text-error flex items-center justify-center mb-4">
+              <span className="material-symbols-outlined">delete_forever</span>
+            </div>
+            <h3 className="font-headline-sm text-on-surface mb-sm">
+              Hapus Hasil Tryout?
+            </h3>
+            <p className="text-body-md text-on-surface-variant">
+              Data hasil tryout ini akan dihapus secara permanen dan statistik akan diperbarui otomatis.
+            </p>
+            <div className="mt-xl flex flex-col gap-3">
+              <button 
+                className="w-full py-md text-white bg-error rounded-lg font-label-md active:scale-95 transition-transform" 
+                onClick={handleDelete}
+              >
+                Ya, Hapus
+              </button>
+              <button 
+                className="w-full py-md border border-outline text-on-surface-variant rounded-lg font-label-md active:scale-95 transition-transform" 
+                onClick={() => setDeleteModalOpen(false)}
+              >
+                Batal
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

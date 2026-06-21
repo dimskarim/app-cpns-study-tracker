@@ -1,10 +1,14 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useStore } from './store/useStore';
 import Dashboard from './pages/Dashboard';
 
 import Jadwal from './pages/Jadwal';
 import Tryout from './pages/Tryout';
 import Statistik from './pages/Statistik';
 import Pengaturan from './pages/Pengaturan';
+import KelolaProfil from './pages/KelolaProfil';
+import Notifikasi from './pages/Notifikasi';
 import TambahJadwal from './pages/TambahJadwal';
 import DetailTryout from './pages/DetailTryout';
 import Timer from './pages/Timer';
@@ -12,6 +16,11 @@ import Timer from './pages/Timer';
 function Navigation() {
   const location = useLocation();
   const path = location.pathname;
+
+  const mainPaths = ['/', '/jadwal', '/tryout', '/statistik', '/pengaturan'];
+  if (!mainPaths.includes(path) && !path.match(/^\/tryout$/)) {
+    return null;
+  }
 
   return (
     <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pt-2 pb-safe bg-surface rounded-t-xl shadow-lg border-t border-outline-variant/10 backdrop-blur-md">
@@ -40,6 +49,14 @@ function Navigation() {
 }
 
 function App() {
+  const isDark = useStore((state) => state.isDark);
+  const setTheme = useStore((state) => state.setTheme);
+
+  useEffect(() => {
+    // Terapkan tema saat app pertama kali di-load
+    setTheme(isDark);
+  }, [isDark, setTheme]);
+
   return (
     <Router>
       <div className="min-h-screen pb-20">
@@ -53,6 +70,8 @@ function App() {
           <Route path="/timer" element={<Timer />} />
           <Route path="/statistik" element={<Statistik />} />
           <Route path="/pengaturan" element={<Pengaturan />} />
+          <Route path="/profil" element={<KelolaProfil />} />
+          <Route path="/notifikasi" element={<Notifikasi />} />
         </Routes>
         <Navigation />
       </div>
