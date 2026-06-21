@@ -1,0 +1,373 @@
+<!DOCTYPE html><html class="light" lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Materi Belajar - CPNS Master</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#434655",
+                    "on-background": "#151c27",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#002109",
+                    "outline": "#737686",
+                    "tertiary-fixed": "#6bff8f",
+                    "on-secondary-container": "#004d6a",
+                    "surface-tint": "#0053db",
+                    "secondary-container": "#40c2fd",
+                    "primary-fixed": "#dbe1ff",
+                    "on-primary": "#ffffff",
+                    "primary": "#004ac6",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#f9f9ff",
+                    "inverse-on-surface": "#ebf1ff",
+                    "surface-container": "#e7eefe",
+                    "on-primary-fixed": "#00174b",
+                    "surface-container-high": "#e2e8f8",
+                    "tertiary": "#006229",
+                    "secondary-fixed-dim": "#7bd0ff",
+                    "primary-container": "#2563eb",
+                    "on-tertiary-fixed-variant": "#005321",
+                    "inverse-primary": "#b4c5ff",
+                    "secondary-fixed": "#c4e7ff",
+                    "background": "#f9f9ff",
+                    "surface-variant": "#dce2f3",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "surface-container-highest": "#dce2f3",
+                    "on-tertiary-container": "#c1ffc5",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface": "#f9f9ff",
+                    "on-secondary-fixed": "#001e2c",
+                    "tertiary-fixed-dim": "#4ae176",
+                    "inverse-surface": "#2a313d",
+                    "tertiary-container": "#007e37",
+                    "on-secondary-fixed-variant": "#004c69",
+                    "error": "#ba1a1a",
+                    "on-surface": "#151c27",
+                    "on-primary-container": "#eeefff",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d3daea",
+                    "surface-container-low": "#f0f3ff",
+                    "secondary": "#00668a",
+                    "outline-variant": "#c3c6d7",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "gutter": "16px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "base": "4px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "caption": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "caption": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+            opacity: 0;
+        }
+        .accordion-item.active .accordion-content {
+            max-height: 500px;
+            opacity: 1;
+            margin-top: 12px;
+        }
+        .accordion-item.active .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 234, 245, 0.5);
+        }
+        
+        .progress-glow {
+            box-shadow: 0px 0px 12px rgba(37, 99, 235, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile py-sm bg-surface/70 dark:bg-surface-dim/70 backdrop-blur-xl">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="A professional close-up portrait of a young Indonesian student smiling warmly, wearing a clean white shirt. The background is a soft-focus library with warm, natural lighting. The overall aesthetic is bright, optimistic, and high-performance light mode UI consistent." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD97GYoi9rm0_-oQBQOL2ilKk_5ioo6raJXqVIiIRB8gqVD8nB2xA7LIbnDLlJie5e5TGwqy_FCcIyDWxi4UjAwR-m6huD2jGZAeTaMttxWeQ19XMEXYJqdNExC3BQkUj1p35uihWT5nsAGst0jqE-3bCA3lc8md3b4fmRbTAW1fLx6LrxjWfBJGFj_cQ77sDpqpcJ1jXNj346r8Er0pnHKQuRoO-hL2oSPKaogpBhtVux0PDLSws53uYY1xNHhn9yxD88DDMjkXyw">
+</div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Materi</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+</header>
+<main class="pt-20 px-margin-mobile">
+<!-- Overall Progress Section -->
+<section class="mb-lg mt-4">
+<div class="glass-card p-gutter rounded-xl shadow-[0px_8px_32px_rgba(37,99,235,0.08)]">
+<div class="flex justify-between items-end mb-sm">
+<div>
+<p class="text-on-surface-variant font-label-md text-label-md">Progres Belajar</p>
+<h2 class="text-primary font-headline-md text-headline-md">72% selesai</h2>
+</div>
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-secondary-container w-[72%] progress-glow transition-all duration-1000 ease-out"></div>
+</div>
+<p class="mt-xs text-on-surface-variant font-caption text-caption">18 dari 25 materi telah dikuasai</p>
+</div>
+</section>
+<!-- Top Tabs Selection -->
+<nav class="flex gap-2 mb-lg overflow-x-auto hide-scrollbar py-1">
+<button class="px-6 py-2 rounded-full font-label-md text-label-md border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all" id="tab-twk" onclick="switchTab('twk')">TWK</button>
+<button class="px-6 py-2 rounded-full font-label-md text-label-md bg-primary text-on-primary shadow-md transition-all" id="tab-tiu" onclick="switchTab('tiu')">TIU</button>
+<button class="px-6 py-2 rounded-full font-label-md text-label-md border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all" id="tab-tkp" onclick="switchTab('tkp')">TKP</button>
+</nav>
+<!-- Topic List (TIU Active) -->
+<div class="space-y-4" id="topic-container">
+<!-- Accordion Item 1: Numerik -->
+<div class="accordion-item glass-card rounded-xl border border-outline-variant/30 overflow-hidden transition-all duration-300">
+<button class="w-full flex items-center justify-between p-gutter text-left" onclick="toggleAccordion(this)">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-2xl">calculate</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Numerik</h3>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[45%]"></div>
+</div>
+<span class="text-on-surface-variant font-caption text-caption">45%</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined arrow-icon transition-transform text-outline">expand_more</span>
+</button>
+<div class="accordion-content px-gutter pb-gutter">
+<div class="space-y-3 pt-2">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline" style="font-variation-settings: 'FILL' 0;">radio_button_unchecked</span>
+<span class="font-label-md text-label-md text-on-surface">Deret Angka</span>
+</div>
+<span class="text-primary font-label-md text-label-md">Mulai</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md text-on-surface">Operasi Hitung Cepat</span>
+</div>
+<span class="text-on-surface-variant font-label-md text-label-md">Selesai</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Accordion Item 2: Verbal -->
+<div class="accordion-item active glass-card rounded-xl border border-outline-variant/30 overflow-hidden shadow-sm transition-all duration-300">
+<button class="w-full flex items-center justify-between p-gutter text-left" onclick="toggleAccordion(this)">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-2xl">translate</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Verbal</h3>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-full"></div>
+</div>
+<span class="text-tertiary font-caption text-caption">100%</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined arrow-icon transition-transform text-outline">expand_more</span>
+</button>
+<div class="accordion-content px-gutter pb-gutter">
+<div class="space-y-3 pt-2">
+<div class="flex items-center justify-between p-3 rounded-lg bg-tertiary-container/5 border border-tertiary/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md text-on-surface">Analogi Kata</span>
+</div>
+<span class="material-symbols-outlined text-tertiary">check</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-tertiary-container/5 border border-tertiary/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md text-on-surface">Silogisme</span>
+</div>
+<span class="material-symbols-outlined text-tertiary">check</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Accordion Item 3: Logika -->
+<div class="accordion-item glass-card rounded-xl border border-outline-variant/30 overflow-hidden transition-all duration-300">
+<button class="w-full flex items-center justify-between p-gutter text-left" onclick="toggleAccordion(this)">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-secondary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-2xl">psychology</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Logika</h3>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[15%]"></div>
+</div>
+<span class="text-on-surface-variant font-caption text-caption">15%</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined arrow-icon transition-transform text-outline">expand_more</span>
+</button>
+<div class="accordion-content px-gutter pb-gutter">
+<div class="space-y-3 pt-2">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline" style="font-variation-settings: 'FILL' 0;">radio_button_unchecked</span>
+<span class="font-label-md text-label-md text-on-surface">Penalaran Analitis</span>
+</div>
+<span class="text-primary font-label-md text-label-md">Mulai</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Resource / Call to Action -->
+<section class="mt-xl">
+<div class="relative rounded-2xl overflow-hidden p-gutter h-40 flex flex-col justify-end">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A clean, minimalist 3D abstract background with floating geometric shapes in shades of soft blue and white. High key lighting, smooth gradients, premium educational technology aesthetic, modern glassmorphism feel." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCyroL4VdB3l-0Cogej36zHMTeiAf75ph7h-2QK6K2z8TGPawyuidftLFxfIvGULklTDKCS4P2AsUdzpsoKkX7higESfREDor_2tCG6yu-h99i2M9kMN5kc0tjw8GCGM1vrdNvRp_cdpe6n60p8UwkwVwk2ISoZKaebGYSsvwdl9tv-0UdXOL4drDYHAHbziUwwcVtnztgobwqkbCtkXq7SmoWW135MAmz_hEYapu9PM_v4uP5eRKVrg8X57qWQQy_hhUZEPceAJ_k')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<div class="relative z-10">
+<h4 class="text-on-primary font-headline-sm text-headline-sm">Siap untuk Tryout?</h4>
+<p class="text-on-primary/80 font-label-md text-label-md">Uji kemampuanmu dengan simulasi real-time.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pt-2 pb-safe bg-surface dark:bg-surface-container-highest shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md-mobile">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold after:content-[''] after:w-1 after:h-1 after:bg-primary after:rounded-full after:mt-1 p-2 rounded-lg transition-transform duration-200 scale-110" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">book_2</span>
+<span class="font-label-md text-label-md-mobile">Materi</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">timer</span>
+<span class="font-label-md text-label-md-mobile">Tryout</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md-mobile">Statistik</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md-mobile">Setelan</span>
+</a>
+</nav>
+<script>
+        function toggleAccordion(button) {
+            const item = button.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Close all items
+            document.querySelectorAll('.accordion-item').forEach(acc => {
+                acc.classList.remove('active');
+                acc.classList.remove('shadow-sm');
+            });
+            
+            // Toggle current
+            if (!isActive) {
+                item.classList.add('active');
+                item.classList.add('shadow-sm');
+            }
+        }
+
+        function switchTab(type) {
+            const tabs = ['twk', 'tiu', 'tkp'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === type) {
+                    btn.classList.add('bg-primary', 'text-on-primary', 'shadow-md');
+                    btn.classList.remove('border', 'border-outline-variant', 'text-on-surface-variant');
+                } else {
+                    btn.classList.remove('bg-primary', 'text-on-primary', 'shadow-md');
+                    btn.classList.add('border', 'border-outline-variant', 'text-on-surface-variant');
+                }
+            });
+            
+            // Logic to update the list could go here for interactive prototype
+            console.log("Switching to tab:", type);
+        }
+
+        // Simple enter animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.accordion-item');
+            items.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    item.style.transition = 'all 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67)';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body></html>

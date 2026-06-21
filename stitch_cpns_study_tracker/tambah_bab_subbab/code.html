@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Tambah Materi - CPNS Master</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#434655",
+                    "on-tertiary-container": "#c1ffc5",
+                    "secondary-fixed": "#c4e7ff",
+                    "secondary": "#00668a",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#dce2f3",
+                    "on-tertiary-fixed": "#002109",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-background": "#151c27",
+                    "primary-fixed": "#dbe1ff",
+                    "on-primary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#2a313d",
+                    "on-tertiary-fixed-variant": "#005321",
+                    "surface-container": "#e7eefe",
+                    "surface": "#f9f9ff",
+                    "on-secondary-fixed": "#001e2c",
+                    "tertiary": "#006229",
+                    "outline-variant": "#c3c6d7",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#b4c5ff",
+                    "primary": "#004ac6",
+                    "on-surface": "#151c27",
+                    "secondary-fixed-dim": "#7bd0ff",
+                    "surface-container-high": "#e2e8f8",
+                    "outline": "#737686",
+                    "background": "#f9f9ff",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#6bff8f",
+                    "surface-tint": "#0053db",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#00174b",
+                    "on-secondary-fixed-variant": "#004c69",
+                    "surface-dim": "#d3daea",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "inverse-on-surface": "#ebf1ff",
+                    "surface-variant": "#dce2f3",
+                    "tertiary-container": "#007e37",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#40c2fd",
+                    "primary-container": "#2563eb",
+                    "surface-container-low": "#f0f3ff",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary-container": "#004d6a",
+                    "tertiary-fixed-dim": "#4ae176",
+                    "on-primary-container": "#eeefff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "base": "4px",
+                    "xl": "32px",
+                    "gutter": "16px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "margin-mobile": "20px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "caption": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "caption": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 234, 245, 0.5);
+        }
+        .signature-shadow { box-shadow: 0px 8px 32px rgba(37, 99, 235, 0.08); }
+        .input-glow:focus { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); border-color: #004ac6; }
+        
+        /* Custom Toggle Switch */
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #dce2f3; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #004ac6; }
+        input:checked + .slider:before { transform: translateX(20px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Top AppBar (Injected from Shared Components Context) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile py-sm bg-surface/70 backdrop-blur-xl">
+<div class="flex items-center gap-3">
+<button aria-label="Kembali" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-primary font-bold">Tambah Materi</h1>
+</div>
+<button class="font-label-md text-label-md text-primary font-bold px-4 py-2 hover:opacity-80 transition-opacity active:scale-95">
+            Simpan
+        </button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-12 px-margin-mobile space-y-lg">
+<!-- Category & Name Section -->
+<section class="glass-card signature-shadow p-md rounded-xl space-y-md">
+<div class="space-y-sm">
+<label class="block font-label-md text-label-md text-on-surface-variant">Kategori Materi</label>
+<div class="relative">
+<select class="w-full h-[52px] px-md rounded-xl border border-outline-variant bg-surface-container-lowest font-body-md text-body-md focus:outline-none input-glow appearance-none">
+<option value="twk">TWK (Tes Wawasan Kebangsaan)</option>
+<option value="tiu">TIU (Tes Intelegensia Umum)</option>
+<option value="tkp">TKP (Tes Karakteristik Pribadi)</option>
+</select>
+<div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+</div>
+</div>
+<div class="space-y-sm">
+<label class="block font-label-md text-label-md text-on-surface-variant">Nama Bab</label>
+<input class="w-full h-[52px] px-md rounded-xl border border-outline-variant bg-surface-container-lowest font-body-md text-body-md focus:outline-none input-glow transition-all" placeholder="Contoh: Pancasila atau Numerik" type="text">
+</div>
+</section>
+<!-- Sub-chapters Section -->
+<section class="glass-card signature-shadow p-md rounded-xl space-y-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Daftar Subbab</h2>
+<span class="text-caption font-caption text-outline-variant">Total: <span id="subbab-count">1</span></span>
+</div>
+<div class="space-y-sm" id="subbab-container">
+<!-- Initial Subbab Row -->
+<div class="subbab-row flex gap-2 group animate-fade-in">
+<div class="flex-grow">
+<input class="w-full h-[52px] px-md rounded-xl border border-outline-variant bg-surface-container-lowest font-body-md text-body-md focus:outline-none input-glow transition-all" placeholder="Masukkan judul subbab" type="text">
+</div>
+<button class="w-[52px] h-[52px] flex items-center justify-center rounded-xl text-error bg-error-container/20 opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0" disabled="" onclick="removeSubbab(this)">
+<span class="material-symbols-outlined">delete_outline</span>
+</button>
+</div>
+</div>
+<button class="w-full py-md flex items-center justify-center gap-2 rounded-xl border-2 border-dashed border-primary/20 text-primary font-label-md text-label-md hover:bg-primary-container/10 transition-colors active:scale-[0.98]" onclick="addSubbab()">
+<span class="material-symbols-outlined">add_circle</span>
+                Tambah Subbab
+            </button>
+</section>
+<!-- Date Settings Section -->
+<section class="glass-card signature-shadow p-md rounded-xl">
+<div class="flex items-center justify-between">
+<div class="space-y-1">
+<p class="font-label-md text-label-md text-on-surface">Target Selesai</p>
+<p class="font-caption text-caption text-on-surface-variant">Tetapkan deadline belajar bab ini</p>
+</div>
+<label class="switch">
+<input onchange="toggleDatePicker(this)" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<div class="mt-md hidden animate-slide-down" id="date-picker-wrapper">
+<div class="relative">
+<input class="w-full h-[52px] px-md rounded-xl border border-outline-variant bg-surface-container-lowest font-body-md text-body-md focus:outline-none input-glow" type="date">
+<div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">calendar_today</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Informational Prompt -->
+<div class="flex items-start gap-3 p-md bg-secondary-container/10 rounded-xl border border-secondary-container/20">
+<span class="material-symbols-outlined text-secondary">info</span>
+<p class="font-caption text-caption text-on-secondary-container leading-relaxed">
+                Materi yang Anda tambahkan akan otomatis muncul di menu <strong class="font-bold">Belajar</strong> dan statistik progress Anda akan mulai dilacak segera setelah subbab pertama diselesaikan.
+            </p>
+</div>
+</main>
+<!-- Interactive Scripts -->
+<script>
+        function addSubbab() {
+            const container = document.getElementById('subbab-container');
+            const countLabel = document.getElementById('subbab-count');
+            
+            const newRow = document.createElement('div');
+            newRow.className = 'subbab-row flex gap-2 group transition-all duration-300 transform translate-y-2 opacity-0';
+            newRow.innerHTML = `
+                <div class="flex-grow">
+                    <input type="text" placeholder="Masukkan judul subbab" class="w-full h-[52px] px-md rounded-xl border border-outline-variant bg-surface-container-lowest font-body-md text-body-md focus:outline-none input-glow transition-all">
+                </div>
+                <button class="w-[52px] h-[52px] flex items-center justify-center rounded-xl text-error bg-error-container/20 hover:bg-error-container/40 transition-all active:scale-90" onclick="removeSubbab(this)">
+                    <span class="material-symbols-outlined">delete_outline</span>
+                </button>
+            `;
+            
+            container.appendChild(newRow);
+            
+            // Trigger animation
+            setTimeout(() => {
+                newRow.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            updateCounters();
+        }
+
+        function removeSubbab(btn) {
+            const row = btn.closest('.subbab-row');
+            row.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                row.remove();
+                updateCounters();
+            }, 200);
+        }
+
+        function updateCounters() {
+            const rows = document.querySelectorAll('.subbab-row');
+            document.getElementById('subbab-count').innerText = rows.length;
+            
+            // First row delete button management
+            const firstDeleteBtn = rows[0].querySelector('button');
+            if (rows.length === 1) {
+                firstDeleteBtn.disabled = true;
+                firstDeleteBtn.classList.add('opacity-0');
+            } else {
+                firstDeleteBtn.disabled = false;
+                firstDeleteBtn.classList.remove('opacity-0');
+            }
+        }
+
+        function toggleDatePicker(checkbox) {
+            const wrapper = document.getElementById('date-picker-wrapper');
+            if (checkbox.checked) {
+                wrapper.classList.remove('hidden');
+                wrapper.classList.add('flex');
+            } else {
+                wrapper.classList.add('hidden');
+            }
+        }
+    </script>
+<style>
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-down { animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fade-in { animation: slideDown 0.2s ease-out forwards; }
+    </style>
+</body></html>
